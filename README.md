@@ -1,2 +1,2 @@
-# Vector-Db-ile-nl-Mekan-Aramas-
+# Vector Db ile unlu Mekan-Aramasi
 VTYS Proje
