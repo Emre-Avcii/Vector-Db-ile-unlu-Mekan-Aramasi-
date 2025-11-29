@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  # PostgreSQL (5432:5432 kalır)
+  postgres:
+    image: postgres:14
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: mydata
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # pgAdmin (5050:80 -> 8080:80 olarak değişti)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_gui
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+  # Qdrant (6333:6333 -> 6334:6333 olarak değişti)
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant_db
+    restart: always
+    ports:
+      - "6334:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  # Milvus Standalone (19530 ve 9091 kalır)
+  milvus:
+    image: milvusdb/milvus:latest
+    container_name: milvus_db
+    restart: always
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    volumes:
+      - milvus_data:/var/lib/milvus
+
+  # Attu (3000:3000 -> 3001:3000 olarak değişti)
+  attu:
+    image: zilliz/attu:latest
+    container_name: attu_gui
+    restart: always
+    environment:
+      MILVUS_URL: milvus_db:19530
+    ports:
+      - "3001:3000"
+    depends_on:
+      - milvus
+
+volumes:
+  pgdata:
+  qdrant_data:
+  milvus_data:
