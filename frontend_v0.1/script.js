@@ -111,15 +111,24 @@ function uisetLoading(isLoading) {
     }
 }
 
-// Görsel dosya ismi gösterme
+// Görsel dosya ismi gösterme ve önizleme
 document.addEventListener('DOMContentLoaded', () => {
     const inp = document.getElementById('image-upload');
     const lbl = document.getElementById('file-name-display');
     if (inp && lbl) {
         inp.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                lbl.textContent = e.target.files[0].name;
-                lbl.classList.add('is-selected');
+                const file = e.target.files[0];
+
+                // FileReader ile resmi oku
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    // İçeriği temizle ve resmi ekle
+                    lbl.innerHTML = `<img src="${event.target.result}" class="vd-preview-image" alt="Seçilen Görsel">`;
+                    lbl.classList.add('is-selected');
+                };
+                reader.readAsDataURL(file);
+
             } else {
                 lbl.textContent = 'Görsel Seçilmedi';
                 lbl.classList.remove('is-selected');
