@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ünlü Mekan Bul</title>
+    <link rel="stylesheet" href="./css/style.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <link rel="icon" type="image/png" href="./images/galata-tower.png">
+</head>
+
+<body>
+
+    <nav class="vd-navbar">
+        <div class="vd-navbar__brand">
+            <a href="index.html">
+                <img src="./images/logo4.svg" alt="Logo" class="vd-logo">
+            </a>
+            <h3>Ünlü Mekan Bul</h3>
+        </div>
+    </nav>
+
+    <div class="vd-container">
+
+        <div class="vd-panel vd-panel--controls">
+
+            <h2 class="vd-panel__title">Arama Kriterleri</h2>
+
+            <div class="vd-control-group vd-control-group--search">
+                <label for="search-bar" class="vd-label"><span class="vd-icon vd-icon--search"></span> Mekan Adı /
+                    Açıklama:</label>
+                <input type="text" id="search-bar" class="vd-input"
+                    placeholder="Örn: Eyfel Kulesi veya 'tarihi köprü'...">
+            </div>
+
+            <div id="error-message" class="vd-alert vd-alert--error vd-alert--hidden">
+                <span class="vd-icon vd-icon--alert"></span> Hata mesajı alanı.
+            </div>
+
+            <hr class="vd-divider">
+
+            <div class="vd-control-group"> 
+                <label class="vd-label"><span class="vd-icon vd-icon--image"></span> Görsel ile Ara:</label>
+                <div class="vd-upload-area">
+                    <input type="file" id="image-upload" class="vd-upload-area__input"
+                        accept="image/png, image/jpeg">
+                    <span class="vd-upload-area__filename" id="file-name-display">Görsel Seçilmedi</span>
+                    <button class="vd-button vd-button--secondary vd-upload-area__button"
+                        onclick="document.getElementById('image-upload').click()">
+                        <span class="vd-icon vd-icon--upload"></span> Dosya Seç
+                    </button>
+                </div>
+                <p class="vd-info-text">
+                    <small>* Desteklenen formatlar: **JPEG, PNG**. Maksimum boyut: 5MB.</small>
+                </p>
+
+                <div id="image-preview-container"
+                    style="margin-top: 15px; display: none; text-align: center;">
+                    <img id="image-preview" src="#" alt="Yüklenen Görsel Önizlemesi"
+                        style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #ddd; max-height: 200px; object-fit: cover;">
+                </div>
+            </div>
+            <hr class="vd-divider">
+
+            <h3 class="vd-panel__subtitle">Sorgu Ayarları</h3>
+
+            <div class="vd-control-group">
+                <label for="result-count" class="vd-label"><span class="vd-icon vd-icon--list"></span> Maksimum Sonuç
+                    :</label>
+                <select id="result-count" class="vd-select">
+                    <option value="3">3</option>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+            <div class="vd-control-group">
+                <label for="distance-range" class="vd-label"><span class="vd-icon vd-icon--map-marker"></span> Maksimum
+                    Uzaklık (km):</label>
+                <select id="distance-range" class="vd-select">
+                    <option value="1">1 km</option>
+                    <option value="5">5 km</option>
+                    <option value="10" selected>10 km</option>
+                    <option value="50">50 km</option>
+                    <option value="1000">Tüm Dünya</option>
+                </select>
+            </div>
+
+
+            <button class="vd-button vd-button--primary" onclick="performSearch()">
+                <span class="vd-icon vd-icon--start-search"></span> Aramayı Başlat
+            </button>
+        </div>
+
+        <div class="vd-panel vd-panel--results">
+
+            <div id="map" class="vd-map-container">
+                <div class="vd-map-loading">
+                    <div class="vd-spinner"></div>
+                    <p class="vd-map-loading__text">Harita Yükleniyor...</p>
+                </div>
+            </div>
+            <p style="font-size: 0.9em; color: #666; margin-top: -20px; margin-bottom: 20px;">
+                <em>* Not: Haritada bir noktaya tıklayarak o bölgedeki (10km) ünlü mekanları arayabilirsiniz.</em>
+            </p>
+
+            <h3 class="vd-panel__subtitle">Arama Sonuçları</h3>
+            <div id="search-results" class="vd-results-list">
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

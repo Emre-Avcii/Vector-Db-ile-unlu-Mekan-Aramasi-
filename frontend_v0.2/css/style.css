@@ -1,0 +1,568 @@
+:root {
+
+    /* ANA RENK PALETİ */
+
+    --primary-color: #5c8ffb; /* Mavi (Logo Rengi) */
+
+    --primary-hover: #4a75dc; /* Primary'nin koyusu */
+
+    --secondary-color: #91b7fa; /* İkincil Renk */
+
+    --secondary-hover: #7b9fe7;
+
+    --tertiary-color: #008298; /* Üçüncül Renk */
+
+    --tertiary-hover: #006b7d;
+
+
+
+    /* ARKA PLAN VE ANİMASYON İÇİN YENİ GRADYAN RENKLERİ (Mor-Pembe Tonları) */
+
+    --background-start: #b6e8ff; /* Açık Şeftali/Pembe */
+
+    --background-mid: #a4bbff;   /* Açık Mor */
+
+    --background-end: #a2caff;   /* Logonun mavisiyle uyumlu, daha serin bir mavi */
+
+    --panel-background: #ffffff; /* Paneller için Açık Gri */
+
+   
+
+    /* GÖLGE VE DİĞERLERİ */
+
+    --shadow-light: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+    --shadow-deep: 0 12px 30px rgba(0, 0, 0, 0.15);
+
+}
+
+* {
+    /* Tüm elementler için kutu modelini sınır kutusuna ayarlar */
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+    /* ANİMASYON İÇİN BÜYÜK ARKA PLAN AYARLARI */
+    background-size: 400% 400%; /* Gradyanın animasyon için büyük olmasını sağlar */
+    background: linear-gradient(
+        135deg, 
+        var(--background-start) 0%,
+        var(--background-mid) 50%, 
+        var(--background-end) 100%
+    );
+    background-attachment: fixed; /* Arka planı kaydırmadan sabit tutar */
+    color: #333;
+    line-height: 1.6;
+    animation: gradientShift 15s ease infinite; /* 15 saniyelik yavaş döngüsel animasyon */
+}
+
+/* ARKA PLAN GRADYAN ANİMASYONU */
+@keyframes gradientShift {
+    /* Gradyan renklerinin pozisyonunu zamanla kaydırarak akıcı hareket oluşturur */
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%; 
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* --- İKON STİLLERİ --- */
+.vd-icon {
+    /* İkonların hizalamasını ve boyutunu ayarlar */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 8px;
+    vertical-align: -0.15em;
+    font-size: 1.1em;
+}
+
+/* İkon içeriği (emoji) tanımlamaları */
+.vd-icon--rocket::before { content: "🚀"; }
+.vd-icon--search::before { content: "🔍"; }
+.vd-icon--alert::before { content: "❗"; }
+.vd-icon--image::before { content: "🖼️"; }
+.vd-icon--upload::before { content: "📤"; }
+.vd-icon--list::before { content: "🔢"; }
+.vd-icon--map-marker::before { content: "📍"; }
+.vd-icon--database::before { content: "🗄️"; }
+.vd-icon--start-search::before { content: "🔎"; }
+
+
+/* 1. NAV BAR */
+.vd-navbar {
+    /* Sayfanın üst kısmındaki tam genişlikteki menü çubuğu */
+    background: var(--panel-background); 
+    width: 100%;
+    padding: 20px 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    position: relative; 
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Logoyu ortalar */
+}
+
+.vd-navbar__brand {
+    /* Logo metni/başlık stilini ayarlar */
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--primary-color); 
+    display: flex;
+    align-items: center;
+}
+
+/* Logo Stili */
+.vd-navbar__brand a {
+    /* Logo resmini ve metni hizalar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.vd-navbar__brand img {
+    /* Logo resminin masaüstü boyutunu ayarlar */
+    width: 200px; 
+    height: auto;
+    transition: width 0.3s ease;
+}
+
+/* --- 2. ANA DÜZEN --- */
+.vd-container {
+    /* İki sütunlu ana düzeni (Kontrol Paneli + Sonuç Paneli) oluşturur */
+    display: flex;
+    max-width: 1400px;
+    margin: 25px auto;
+    gap: 30px;
+    padding: 0 25px;
+}
+
+/* --- 3. PANELLER --- */
+.vd-panel {
+    /* Tüm panellerin temel stilini (arka plan, gölge, yuvarlak kenarlık) tanımlar */
+    background-color: var(--panel-background); 
+    border-radius: 15px;
+    box-shadow: var(--shadow-light);
+    padding: 35px;
+    border: 1px solid #e0e7ec;
+}
+
+.vd-panel--controls {
+    /* Sol Kontrol Panelinin genişliğini ve sabit konumunu ayarlar */
+    width: 400px;
+    height: fit-content;
+    position: sticky; 
+    top: 30px; 
+    flex-shrink: 0;
+}
+
+.vd-panel--results {
+    /* Sağ Sonuç Panelinin genişliği, kalan tüm alanı kaplar */
+    flex-grow: 1;
+}
+
+.vd-panel__title {
+    /* Panel ana başlık stilini tanımlar */
+    color: #2c3e50;
+    border-bottom: 2px solid #eef1f4; 
+    padding-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.vd-panel__subtitle {
+    /* Panel alt başlık (Sorgu Ayarları, Sonuçlar) stilini Primary renkte gösterir */
+    color: var(--primary-color); 
+    margin-top: 35px;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+/* --- 4. KONTROL GRUPLARI --- */
+.vd-control-group {
+    /* Her bir form alanı grubunun alt boşluğunu ayarlar */
+    margin-bottom: 25px;
+}
+
+.vd-label {
+    /* Input etiketlerinin stilini ve ikon hizalamasını ayarlar */
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1em;
+}
+
+.vd-input,
+.vd-select {
+    /* Input ve Select alanlarının genel stilini ve focus efektini tanımlar */
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dcdfe6;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #ffffff; 
+}
+
+.vd-input:focus,
+.vd-select:focus {
+    /* Focus (odaklanma) durumunda Primary renkle kenarlık ve gölge ekler */
+    border-color: var(--primary-color); 
+    box-shadow: 0 0 0 3px rgba(92, 143, 251, 0.2); 
+    outline: none;
+}
+
+/* --- 5. BUTONLAR --- */
+.vd-button {
+    /* Tüm butonlar için temel stil, Primary rengi kullanır */
+    width: 100%;
+    padding: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(92, 143, 251, 0.2); 
+}
+
+.vd-button:hover {
+    /* Hover durumunda rengi koyulaştırır ve hafif yukarı hareket ettirir */
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(92, 143, 251, 0.3);
+}
+
+.vd-button--primary {
+    /* Ana arama butonu için ekstra üst boşluk */
+    margin-top: 30px; 
+}
+
+.vd-button--secondary {
+    /* İkincil butonlar (Dosya Seç) için kompakt boyut */
+    padding: 10px 15px;
+    font-size: 0.95em;
+    width: auto;
+    flex-shrink: 0;
+    
+    background-color: var(--primary-color);
+    box-shadow: 0 3px 8px rgba(92, 143, 251, 0.2);
+}
+
+/* --- GÖRSEL YÜKLEME ALANI --- */
+.vd-upload-area {
+    /* Dosya yükleme bileşeninin düzeni */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.vd-info-text {
+    /* Küçük bilgilendirme metni stili */
+    margin-top: 5px;
+    color: #888;
+    font-size: 0.85em;
+    padding-left: 5px;
+}
+
+.vd-upload-area__input {
+    /* HTML dosya inputunu gizler */
+    display: none;
+}
+
+.vd-upload-area__filename {
+    /* Seçilen dosya adının görüntülendiği kutu stili */
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px dashed #dcdfe6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #555;
+    font-size: 0.95em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* --- 6. HARİTA --- */
+.vd-map-container {
+    /* Harita alanının boyutları ve görsel stili */
+    height: 550px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: var(--shadow-deep);
+    margin-bottom: 25px;
+    overflow: hidden;
+    background-color: #eef1f4; 
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vd-map-loading {
+    /* Harita yüklenirken gösterilen yükleme ekranı (spinner içerir) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #666;
+    font-size: 1.1em;
+    gap: 15px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+}
+
+.vd-spinner {
+    /* Yükleniyor (loading) animasyonu */
+    border: 4px solid rgba(92, 143, 251, 0.2); 
+    border-top: 4px solid var(--primary-color); 
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* --- 7. SONUÇ LİSTESİ --- */
+.vd-results-list {
+    /* Sonuç öğelerini içeren listenin temel stili */
+    padding: 0;
+}
+
+.vd-result-item {
+    /* Tek bir arama sonucu öğesi stili (Tıklanabilirdir) */
+    background-color: #ffffff; 
+    border-left: 5px solid var(--primary-color); 
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.vd-result-item:hover {
+    /* Hover (üzerine gelme) efekti */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* SEÇİLİ SONUÇ İÇİN VURGU */
+.vd-result-item.is-selected {
+    /* JavaScript ile seçilen öğeye uygulanan ekstra vurgu stili (Faz 1 seçimi) */
+    background-color: var(--background-start); 
+    border: 1px solid var(--primary-color); 
+    border-left: 5px solid var(--primary-hover) !important; 
+    box-shadow: 0 6px 18px rgba(92, 143, 251, 0.1);
+    transform: translateY(-1px);
+}
+
+
+/* Küçük Resim Stili */
+.vd-result-img {
+    /* Sonuç kartlarındaki küçük önizleme resim stili */
+    width: 120px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.vd-result-content {
+    /* Metin içeriğinin düzeni */
+    flex-grow: 1;
+}
+
+.vd-result-item__title {
+    /* Sonuç öğesi başlığı (Mekan adı) */
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Ülke Rozeti */
+.vd-badge-country {
+    /* Ülke adını gösteren küçük etiket stili */
+    background-color: #e3f2fd; 
+    color: #1a76d2; 
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7em;
+    font-weight: normal;
+    border: 1px solid #bbdefb; 
+}
+
+.vd-result-item__detail {
+    /* Küçük detay metinlerinin (mesafe, benzerlik) stili */
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.vd-result-item__detail .vd-icon {
+    /* Detay ikonlarının rengi */
+    font-size: 1em;
+    width: 1.4em;
+    color: var(--primary-color); 
+}
+
+.vd-no-results {
+    /* Sonuç bulunamadığında gösterilen mesaj stili */
+    font-style: italic;
+    color: #7f8c8d;
+    padding: 18px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+}
+
+/* --- 8. UYARI / HATA MESAJLARI --- */
+.vd-alert {
+    /* Hata mesajı kutusu stili */
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vd-alert--hidden {
+    /* JS ile gizlenen hata mesajları için */
+    display: none;
+}
+
+.vd-alert--error {
+    /* Kırmızı hata teması */
+    background-color: #fbecec;
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.vd-divider {
+    /* Yatay ayırıcı çizgi stili */
+    border: none;
+    border-top: 1px solid #eef1f4;
+    margin: 25px 0;
+}
+
+/* --- RESPONSİF TASARIM --- */
+@media (max-width: 992px) {
+    /* Tablet ve küçük cihazlarda iki sütunlu düzeni tek sütuna indirir */
+    .vd-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .vd-panel--controls {
+        /* Kontrol panelini tam genişliğe yayar ve sabitliğini kaldırır */
+        width: 100%;
+        position: static;
+        padding: 25px;
+    }
+
+    .vd-map-container {
+        /* Haritanın yüksekliğini azaltır */
+        height: 400px;
+    }
+
+    .vd-navbar__brand img {
+        /* Tablet için logo boyutunu ayarlar */
+        width: 250px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Mobil cihazlar için ek düzenlemeler */
+    .vd-navbar {
+        padding: 15px 15px;
+        margin-bottom: 20px;
+    }
+
+    .vd-navbar__brand {
+        font-size: 1.5em;
+    }
+    
+    .vd-navbar__brand img {
+        /* Mobil için logo boyutunu ayarlar */
+        width: 180px;
+    }
+
+    .vd-panel {
+        padding: 20px;
+    }
+
+    .vd-result-item {
+        /* Sonuç kartını dikey düzene çevirir */
+        flex-direction: column;
+    }
+
+    .vd-result-img {
+        /* Görseli tam genişliğe yayar */
+        width: 100%;
+        height: 150px;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+
